@@ -1,0 +1,54 @@
+﻿@using ResistorWebApp.ViewModel
+@model ResistorWebApp.ViewModel.ResistorViewModel
+@{
+    ViewBag.Title = "Index";
+}
+
+<div class="jumbotron">
+    <h1>Resistor Calculator</h1>
+    <p class="lead">This is a utility that calculates the Ohms value of a resistor based on its band color. It will also deduce the resistance boundaries based on the tolerance band color.</p>
+    @*<p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>*@
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        @using (Html.BeginForm("Index", "Home", FormMethod.Post, new { @id = "formResistorCalculator" }))
+        {
+            @Html.AntiForgeryToken()
+            <fieldset>
+                <label>Band 1</label>
+                @Html.DropDownListFor(m => m.SelectedBand1, DropdownHelper.GetBandColors())
+            </fieldset>
+
+            <fieldset>
+                <label>Band 2</label>
+                @Html.DropDownListFor(m => m.SelectedBand2, DropdownHelper.GetBandColors())
+            </fieldset>
+
+            <fieldset>
+                <label>Multiplier</label>
+                @Html.DropDownListFor(m => m.SelectedMultiplier, DropdownHelper.GetMultiplierColors())
+            </fieldset>
+
+            <fieldset>
+                <label>Tolerance</label>
+                @Html.DropDownListFor(m => m.SelectedTolerance, DropdownHelper.GetToleranceColors())
+            </fieldset>
+
+            <fieldset>
+                <input type="submit" class="btn btn-primary btn-lg" value="Calculate" />
+            </fieldset>
+            <br />
+
+            if (Model.ShowResult)
+            {
+                <div class="jumbotron">
+                    <p>Resistor Ohms Value: @Model.OhmsValue</p>
+                    <p>Resistance is between @Model.ResistanceLowerValue and @Model.ResistanceUpperValue ohms</p>
+                </div>
+            }
+
+            @Html.ValidationSummary()
+        }
+    </div>
+</div>
